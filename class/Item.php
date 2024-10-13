@@ -1157,7 +1157,12 @@ class Item extends \XoopsObject
             $this->setVar('dobr', $this->helper->getConfig('submit_dobr'));
             $this->setVar('votetype', $this->helper->getConfig('ratingbars'));
         } else {
-            $this->setVar('uid', Request::getInt('uid', 0, 'POST'));
+            $author_uid = Request::getInt('uid', 0, 'POST');
+            if(!$author_uid) {
+              $author_uid = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
+            }
+
+            $this->setVar('uid', $author_uid);
             $this->setVar('cancomment', Request::getInt('allowcomments', 1, 'POST'));
             $this->setVar('status', Request::getInt('status', 1, 'POST'));
             $this->setVar('dohtml', Request::getInt('dohtml', 1, 'POST'));
